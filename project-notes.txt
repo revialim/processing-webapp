@@ -1,0 +1,8 @@
+Project notes
+–––––––––––––
+
+SETUP
+
+Quick Start for Processing.js 
+http://processingjs.org/articles/p5QuickStart.html
+
