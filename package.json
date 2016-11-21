@@ -1,0 +1,22 @@
+{
+  "name": "processing-webapp",
+  "version": "1.0.0",
+  "description": "this webapp holds processing files and gives a user options to change and save settings on processing animations.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/revialim/processing-webapp.git"
+  },
+  "author": "Lilian Hung",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/revialim/processing-webapp/issues"
+  },
+  "homepage": "https://github.com/revialim/processing-webapp#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
