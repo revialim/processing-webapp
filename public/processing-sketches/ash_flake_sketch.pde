@@ -68,7 +68,7 @@ class Flake{
   
   Flake(float dx, float dy){ //call with desired destination coordinates
      //dx and dy are the destination coordinates
-     this();//ruft den obrigen Konstruktor auf bzw. führt aus, was dort drin steht, weil doppelter code ist blöd pups :(
+     this();
      
      this.dx = dx;
      this.dy = dy;

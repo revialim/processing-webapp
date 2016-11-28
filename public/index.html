@@ -1,7 +1,7 @@
 <html>
 <head>
 <title> Processing Web App </title>
-<script src="./processing.min.js"></script>
+<script src="./processing.js"></script>
 </head>
 <body>
 <h1> Processing Web App </h1>
@@ -9,6 +9,72 @@
 <h2> Ash Flakes and Golden Spiral </h2>	
 <canvas data-processing-sources="./processing-sketches/ash_flake_sketch.pde"></canvas>
 
+<p> Test </p>
+<canvas id="testcanvas"></canvas>
+    
+<script id="script1" type="text/javascript">
+    // Attaching js code to the canvas by using a sketch object
+    var sketch = new Processing.Sketch();
+    // Box Variables
+    var boxX = 100;
+    
+    // define 3D context
+    sketch.use3DContext = true;
+    // attach function (also, can be specified as the single parameter 
+    // in the Processing.Sketch object constructor)
+    sketch.attachFunction = function(processing) {
+        
+        processing.setup = function() {
+            processing.size(200, 200, processing.P3D);
+            processing.fill(8);
+            processing.stroke(200);
+            processing.strokeWeight(2);
+        };
+
+        processing.draw = function() {
+            processing.background(240);
+            //draw a 3d box
+            processing.translate(boxX, 100, 0); 
+            processing.rotateY(0.5);
+            processing.box(90);
+        };
+        
+        // mouse event
+        /*
+        processing.mouseDragged = function() {
+        var rate = 0.01;
+        rotx += (processing.pmouseY-processing.mouseY) * rate;
+        roty += (processing.mouseX-processing.pmouseX) * rate;
+        };
+        */
+    };
+    
+    function setBoxPositionX(posX) {
+        boxX = posX;
+    }
+    
+    /* 2D...
+    
+    function sketchProc(processing) {
+        // Override draw function, by default it will be called 60 times per second
+        processing.draw = function() {
+            // erase background
+            processing.background(224);
+            
+            processing.strokeWeight(3);
+            processing.line(5,5,100,150);
+      };
+    }/*/
+    
+    // attaching the sketchProc function to the canvas
+    var canvas = document.getElementById("testcanvas");
+    var p = new Processing(canvas, sketch);
+
+</script>
+
+<input type="range" id="myRange" min="0" max="200" oninput="setBoxPositionX(this.value);" onchange="setBoxPositionX(this.value);">
+
+    
 <p> Draw something </p>
 <canvas data-processing-sources="./processing-sketches/drawfun.pde"></canvas>
     
