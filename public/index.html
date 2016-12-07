@@ -6,10 +6,8 @@
 <body>
 <h1> Processing Web App </h1>
 
-<h2> Ash Flakes and Golden Spiral </h2>	
-<canvas data-processing-sources="./processing-sketches/ash_flake_sketch.pde"></canvas>
-
-<p> Test </p>
+<h2> Cube </h2>	
+    
 <canvas id="testcanvas"></canvas>
     
 <script id="script1" type="text/javascript">
@@ -17,6 +15,10 @@
     var sketch = new Processing.Sketch();
     // Box Variables
     var boxX = 100;
+    var boxY = 100;
+    var cubeSize = 90;
+    var rotX = 0.5;
+    var rotY = 0.5;
     
     // define 3D context
     sketch.use3DContext = true;
@@ -34,37 +36,35 @@
         processing.draw = function() {
             processing.background(240);
             //draw a 3d box
-            processing.translate(boxX, 100, 0); 
-            processing.rotateY(0.5);
-            processing.box(90);
+            processing.translate(boxX, boxY, 0); 
+            processing.rotateY(rotY);
+            processing.rotateX(rotX);
+            processing.box(cubeSize);
         };
         
         // mouse event
-        /*
+        
         processing.mouseDragged = function() {
-        var rate = 0.01;
-        rotx += (processing.pmouseY-processing.mouseY) * rate;
-        roty += (processing.mouseX-processing.pmouseX) * rate;
+            var rate = 0.01;
+            rotX += (processing.pmouseY-processing.mouseY) * rate;
+            rotY += (processing.mouseX-processing.pmouseX) * rate;
         };
-        */
+        
     };
     
-    function setBoxPositionX(posX) {
-        boxX = posX;
+    function setValue(elem, i) {
+        if(elem.id === "boxPosX") {
+            boxX = i;
+        } else if(elem.id === "boxPosY") {
+            boxY = i;
+        } else if (elem.id === "cubeSize") {
+            cubeSize = i;
+        } else if (elem.id === "rotationX") {
+            rotX = i;
+        } else if (elem.id === "rotationY") {
+            rotY = i;
+        }
     }
-    
-    /* 2D...
-    
-    function sketchProc(processing) {
-        // Override draw function, by default it will be called 60 times per second
-        processing.draw = function() {
-            // erase background
-            processing.background(224);
-            
-            processing.strokeWeight(3);
-            processing.line(5,5,100,150);
-      };
-    }/*/
     
     // attaching the sketchProc function to the canvas
     var canvas = document.getElementById("testcanvas");
@@ -72,11 +72,17 @@
 
 </script>
 
-<input type="range" id="myRange" min="0" max="200" oninput="setBoxPositionX(this.value);" onchange="setBoxPositionX(this.value);">
-
+    <div>x-coordinate:</div>
+    <input type="range" id="boxPosX" min="0" max="200" oninput="setValue(this, this.value);" onchange="setValue(this, this.value);">
+    <div>y-coordinate:</div>
+    <input type="range" id="boxPosY" min="0" max="200" oninput="setValue(this, this.value);" onchange="setValue(this, this.value);">
+    <div>cube size:</div>
+    <input type="range" id="cubeSize" min="10" max="180" oninput="setValue(this, this.value);" onchange="setValue(this, this.value);">
+    <div>rotation x:</div>
+    <input type="range" id="rotationX" min="0" max="6.3" step="0.01" oninput="setValue(this, this.value);" onchange="setValue(this, this.value);">
+    <div>rotation y: </div>
+    <input type="range" id="rotationY" min="0" max="6.3" step="0.01" oninput="setValue(this, this.value);" onchange="setValue(this, this.value);">
     
-<p> Draw something </p>
-<canvas data-processing-sources="./processing-sketches/drawfun.pde"></canvas>
-    
+ 
 </body>
 </html>
