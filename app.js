@@ -1,13 +1,20 @@
 // express connection
-var express = require('express')
-var app = express()
+var express = require('express');
+var cubeStorage = require('./storage');
+var app = express();
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
+app.get('/hello', function (req, res) {
+  res.send('Hello World!');
+});
 
-app.listen(4000, function () {
-  console.log('Example app listening on port 4000!')
-})
+app.get('/cube/:id', function(req, res) {
+  console.log("Somebody wanted cube number " + req.params.id);
+});
+
+// app.post('/cube', ...)
+
+cubeStorage.start(app);
+
+
