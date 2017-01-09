@@ -10,9 +10,19 @@ var url = 'mongodb://localhost:27017/myproject';
 // export interface
 var Database = function() {};
 
-Database.prototype.get = function(){
-
+//Define CRUD operations
+//find by id (read)
+Database.prototype.findbyID = function(id){
+   
 };
+//create
+Database.prototype.create = function(cubeObj) {
+    mydb.collection('cubes').insertOne(cubeObj);
+};
+
+//delete
+
+//update
 
 Database.prototype.start = function(app) {
   // Use connect method to connect to the server
@@ -24,6 +34,6 @@ Database.prototype.start = function(app) {
       console.log('Example app listening on port 4000!')
     });
   });
-}
+};
 
 module.exports = new Database();

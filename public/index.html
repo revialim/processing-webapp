@@ -1,7 +1,18 @@
 <html>
 <head>
-<title> Processing Web App </title>
-<script src="./processing.js"></script>
+    <title> Processing Web App </title>
+    <script src="./processing.js"></script>
+    <script>
+        //cube initial setup
+        window.CubeContainer = {
+            boxX : 100,
+            boxY : 100,
+            cubeSize : 90,
+            rotX : 0.5,
+            rotY : 0.5
+        }
+        
+    </script>
 </head>
 <body>
 <h1> Processing Web App </h1>
@@ -13,12 +24,6 @@
 <script id="script1" type="text/javascript">
     // Attaching js code to the canvas by using a sketch object
     var sketch = new Processing.Sketch();
-    // Box Variables
-    var boxX = 100;
-    var boxY = 100;
-    var cubeSize = 90;
-    var rotX = 0.5;
-    var rotY = 0.5;
     
     // define 3D context
     sketch.use3DContext = true;
@@ -36,33 +41,33 @@
         processing.draw = function() {
             processing.background(240);
             //draw a 3d box
-            processing.translate(boxX, boxY, 0); 
-            processing.rotateY(rotY);
-            processing.rotateX(rotX);
-            processing.box(cubeSize);
+            processing.translate(CubeContainer.boxX, CubeContainer.boxY, 0); 
+            processing.rotateY(CubeContainer.rotY);
+            processing.rotateX(CubeContainer.rotX);
+            processing.box(CubeContainer.cubeSize);
         };
         
         // mouse event
         
         processing.mouseDragged = function() {
             var rate = 0.01;
-            rotX += (processing.pmouseY-processing.mouseY) * rate;
-            rotY += (processing.mouseX-processing.pmouseX) * rate;
+            CubeContainer.rotX += (processing.pmouseY-processing.mouseY) * rate;
+            CubeContainer.rotY += (processing.mouseX-processing.pmouseX) * rate;
         };
         
     };
     
     function setValue(elem, i) {
         if(elem.id === "boxPosX") {
-            boxX = i;
+            CubeContainer.boxX = i;
         } else if(elem.id === "boxPosY") {
-            boxY = i;
+            CubeContainer.boxY = i;
         } else if (elem.id === "cubeSize") {
-            cubeSize = i;
+            CubeContainer.cubeSize = i;
         } else if (elem.id === "rotationX") {
-            rotX = i;
+            CubeContainer.rotX = i;
         } else if (elem.id === "rotationY") {
-            rotY = i;
+            CubeContainer.rotY = i;
         }
     }
     
