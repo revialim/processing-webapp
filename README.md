@@ -8,11 +8,11 @@
 </ul>
 <h3>ExpressJS</h3>
 <ul>
-<li>more: <a href="https://expressjs.com/">https://expressjs.com/</a></li>
+<li><a href="https://expressjs.com/">https://expressjs.com/</a></li>
 <li><a href="https://github.com/expressjs/express">https://github.com/expressjs/express</a></li>
 </ul>
 <h3>MongoDB</h3>
 <ul>
-<li>more: <a href="https://www.mongodb.com/">https://www.mongodb.com/</a></li>
+<li><a href="https://www.mongodb.com/">https://www.mongodb.com/</a></li>
 <li><a href="https://github.com/mongodb/mongo">https://github.com/mongodb/mongo</a></li>
 </ul>
