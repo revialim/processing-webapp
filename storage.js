@@ -15,6 +15,10 @@ var Database = function() {};
 Database.prototype.findbyID = function(id){
    
 };
+//find list
+Database.prototype.findAll = function(){
+    return mydb.collection('cubes').find({});
+}
 //create
 Database.prototype.create = function(cubeObj) {
     mydb.collection('cubes').insertOne(cubeObj);
