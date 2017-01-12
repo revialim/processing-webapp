@@ -1,9 +1,44 @@
-button {
-    margin-top: 10px;
-    padding: 15px;
-    color: #222;
-    font-size: 14px;
-    background-color: #eee;
-    border: solid 1px #ccc;
-    border-radius: 10px;
+h1, h2, h3, h4, h5 {
+  color: #555;
+  font-family: sans-serif;
 }
+
+body {
+  background-color: #fefefe;
+  font-family: sans-serif;
+}
+
+canvas {
+  border: 5px solid #4f79c1;
+}
+
+button {
+  margin-top: 10px;
+  padding: 15px;
+  color: #222;
+  font-size: 14px;
+  background-color: #fefefe;
+  border: solid 1px #ccc;
+  border-radius: 10px;
+}
+
+.cube-input {
+  padding: 5px 0;
+}
+.cube-input button {
+  padding: 5px;
+  color: #fefefe;
+  font-style: bold;
+  font-size: 12px;
+  background-color: #4f79c1;
+}
+
+@media (min-width: 426px) {
+  .cube-inputs-wrap {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 15px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

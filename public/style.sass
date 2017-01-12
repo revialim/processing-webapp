@@ -1,0 +1,40 @@
+$theme-dark: #222
+$theme-light: #fefefe
+$theme-grey: #555
+$theme-blue: #4f79c1
+
+h1, h2, h3, h4, h5
+    color: $theme-grey
+    font-family: sans-serif
+
+body
+    background-color: $theme-light
+    font-family: sans-serif
+
+canvas
+    border: 5px solid $theme-blue
+
+button
+    margin-top: 10px
+    padding: 15px
+    color: $theme-dark
+    font-size: 14px
+    background-color: $theme-light
+    border: solid 1px #ccc
+    border-radius: 10px
+
+.cube-input
+    padding: 5px 0
+    
+    button
+        padding: 5px
+        color: $theme-light
+        font-style: bold
+        font-size: 12px
+        background-color: $theme-blue
+
+@media (min-width: 426px)
+    .cube-inputs-wrap
+        display: inline-block
+        vertical-align: top
+        margin-left: 15px
