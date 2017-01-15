@@ -23,7 +23,7 @@
             
             cubes.forEach(function(cube) {
                     cubeHTML = cubeHTML + "<div>"+ num +"</div>"+
-                        "<button onclick='showCube("+ cube._id +")'> Show </button>"+
+                        "<button onclick=\"showCube('"+ cube._id +"')\"> Show </button>"+
                         "<ul><li>" + cube._id +"</li>"+
                         "<li> Alias: "+ cube.alias +"</li>"+
                         "<li> x-coordinate: "+ cube.boxX +"</li>"+
