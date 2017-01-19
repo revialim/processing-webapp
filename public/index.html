@@ -13,9 +13,47 @@
             cubeSize : 90,
             rotX : 0.5,
             rotY : 0.5
+        };
+        
+        class Cube {
+            constructor(x,y,size,rotx,roty){
+                this.xcoord = x;
+                this.ycoord = y;
+                this.size = size;
+                this.rotx = rotx;
+                this.roty = roty;
+            }
         }
+        
+        window.CubeSet = {
+            cube1: CubeContainer
+        };
+        
         //list of all cubes
         var allCubes;
+        
+        //set slider function, so that sliders show (updated) CubeContainer values
+        function setSliders() {
+            document.getElementById("boxPosX").value = CubeContainer.boxX;
+            document.getElementById("boxPosY").value = CubeContainer.boxY;
+            document.getElementById("cubeSize").value = CubeContainer.cubeSize;
+            document.getElementById("rotationX").value = CubeContainer.rotX;
+            document.getElementById("rotationY").value = CubeContainer.rotY;
+        }
+        
+        function setValue(elem, i) {
+            if(elem.id === "boxPosX") {
+                CubeContainer.boxX = i;
+            } else if(elem.id === "boxPosY") {
+                CubeContainer.boxY = i;
+            } else if (elem.id === "cubeSize") {
+                CubeContainer.cubeSize = i;
+            } else if (elem.id === "rotationX") {
+                CubeContainer.rotX = i;
+            } else if (elem.id === "rotationY") {
+                CubeContainer.rotY = i;
+            }
+        }
         
         function allCubesIntoHTML(cubes){
             var cubeHTML = "";
@@ -39,8 +77,10 @@
         
         //get alias from input field
         function updateAlias() {
-            CubeContainer.alias = document.getElementById('cubeAlias').value;
-            document.getElementById("cube-alias-input").innerHTML = "Alias was set to: "+ CubeContainer.alias;
+            if( document.getElementById('cubeAlias').value != ""){
+                CubeContainer.alias = document.getElementById('cubeAlias').value;
+            }
+            document.getElementById("cube-alias-input").innerHTML = "Current cube alias: "+ CubeContainer.alias;
         }
         
         //update cube list, find all cubes in DB
@@ -91,9 +131,9 @@
                     CubeContainer.rotY = cube.rotY;
                 }
             });
+            setSliders();
+            updateAlias();
         }
-        
-        //TODO: set slider function, so that sliders show CubeContainer values
         
         window.onload = updateCubeList;
     </script>
@@ -115,10 +155,18 @@
     // in the Processing.Sketch object constructor)
     sketch.attachFunction = function(processing) {
         
+        function drawSpheres(n){
+            for(var i = 0; i < n; i++){
+                processing.noStroke();
+                processing.translate(i*i, i*i, 0);
+                processing.sphere(i*20);
+            }
+        }
+        
         processing.setup = function() {
             processing.size(400, 400, processing.P3D);
-            processing.fill(8);
-            processing.stroke(200);
+            processing.fill(50);
+            processing.stroke(180);
             processing.strokeWeight(2);
         };
 
@@ -132,28 +180,15 @@
         };
         
         // mouse event
-        
         processing.mouseDragged = function() {
             var rate = 0.01;
             CubeContainer.rotX += (processing.pmouseY-processing.mouseY) * rate;
             CubeContainer.rotY += (processing.mouseX-processing.pmouseX) * rate;
+            
+            setSliders();
         };
         
     };
-    
-    function setValue(elem, i) {
-        if(elem.id === "boxPosX") {
-            CubeContainer.boxX = i;
-        } else if(elem.id === "boxPosY") {
-            CubeContainer.boxY = i;
-        } else if (elem.id === "cubeSize") {
-            CubeContainer.cubeSize = i;
-        } else if (elem.id === "rotationX") {
-            CubeContainer.rotX = i;
-        } else if (elem.id === "rotationY") {
-            CubeContainer.rotY = i;
-        }
-    }
     
     // attaching the sketchProc function to the canvas
     var canvas = document.getElementById("testcanvas");
@@ -174,12 +209,9 @@
     <input type="range" id="rotationY" min="0" max="6.3" step="0.01" oninput="setValue(this, this.value);" onchange="setValue(this, this.value);"></div>
     <div class="cube-input">Cube Alias: <input type="text" id="cubeAlias" >
         <button onclick="updateAlias()">Enter alias</button>
-        <div id="cube-alias-input">alias is set to generic value</div>    
+        <div id="cube-alias-input">Current cube alias: </div>    
     </div>
-</div>
-    
-<div>
-<button onclick="postValues()">Save cube settings</button>
+    <div><button onclick="postValues()">Save cube settings</button></div>
 </div>
     
 <div id="saved-cubes-list"></div>
