@@ -4,197 +4,73 @@
     <link rel="stylesheet" type="text/css" href="./style.css">
     <script src="./processing.js"></script>
     <script src="./jquery-3.1.1.min.js"></script>
-    <script>
-        //cube initial setup
-        window.CubeContainer = {
-            alias: "genericCubeAlias",
-            boxX : 100,
-            boxY : 100,
-            cubeSize : 90,
-            rotX : 0.5,
-            rotY : 0.5
-        };
-        
-        class Cube {
-            constructor(x,y,size,rotx,roty){
-                this.xcoord = x;
-                this.ycoord = y;
-                this.size = size;
-                this.rotx = rotx;
-                this.roty = roty;
-            }
-        }
-        
-        window.CubeSet = {
-            cube1: CubeContainer
-        };
-        
-        //list of all cubes
-        var allCubes;
-        
-        //set slider function, so that sliders show (updated) CubeContainer values
-        function setSliders() {
-            document.getElementById("boxPosX").value = CubeContainer.boxX;
-            document.getElementById("boxPosY").value = CubeContainer.boxY;
-            document.getElementById("cubeSize").value = CubeContainer.cubeSize;
-            document.getElementById("rotationX").value = CubeContainer.rotX;
-            document.getElementById("rotationY").value = CubeContainer.rotY;
-        }
-        
-        function setValue(elem, i) {
-            if(elem.id === "boxPosX") {
-                CubeContainer.boxX = i;
-            } else if(elem.id === "boxPosY") {
-                CubeContainer.boxY = i;
-            } else if (elem.id === "cubeSize") {
-                CubeContainer.cubeSize = i;
-            } else if (elem.id === "rotationX") {
-                CubeContainer.rotX = i;
-            } else if (elem.id === "rotationY") {
-                CubeContainer.rotY = i;
-            }
-        }
-        
-        function allCubesIntoHTML(cubes){
-            var cubeHTML = "";
-            var num = 1;
-            
-            cubes.forEach(function(cube) {
-                    cubeHTML = cubeHTML + "<div>"+ num +"</div>"+
-                        "<button onclick=\"showCube('"+ cube._id +"')\"> Show </button>"+
-                        "<ul><li>" + cube._id +"</li>"+
-                        "<li> Alias: "+ cube.alias +"</li>"+
-                        "<li> x-coordinate: "+ cube.boxX +"</li>"+
-                        "<li> y-coordinate: "+ cube.boxY +"</li>"+
-                        "<li> cube size: "+ cube.cubeSize +"</li>"+
-                        "<li> rotation x: "+ cube.rotX + "</li>"+
-                        "<li> rotation y: "+ cube.rotY +"</li></ul>";
-                    num = num + 1;
-                });
-                
-            document.getElementById('saved-cubes-list').innerHTML = cubeHTML;
-        }
-        
-        //get alias from input field
-        function updateAlias() {
-            if( document.getElementById('cubeAlias').value != ""){
-                CubeContainer.alias = document.getElementById('cubeAlias').value;
-            }
-            document.getElementById("cube-alias-input").innerHTML = "Current cube alias: "+ CubeContainer.alias;
-        }
-        
-        //update cube list, find all cubes in DB
-        function updateCubeList() {
-            console.log("getting list of cubes");
-            
-            var request = $.ajax({
-                type: "GET",
-                url: "/cubes",
-                contentType: "text"
-            });
-            request.done(function(response){
-                //console.log("allcubes: "+response);
-                allCubes = response;
-                // add updated information to DOM
-                allCubesIntoHTML(response);
-            });
-        }
-        
-        //post button values
-        function postValues() {
-            console.log("posting values");
-            $.ajax({
-                type: "POST",
-             // method: "POST",
-                url: "/cubes",
-                processData: false,
-                contentType: "application/json",
-                data: JSON.stringify(CubeContainer)
-             // dataType: "json"   
-            }).done(function() {
-                console.log("Cube Data was saved.");
-                updateCubeList();
-            });
-        }
-        
-        //show cube, when button clicked
-        function showCube(id) {
-            //search for cube with correct id in allCubes list
-            //search field "_id"
-            allCubes.forEach(function(cube){
-                if(cube._id === id){
-                    CubeContainer.alias = cube.alias;
-                    CubeContainer.boxX = cube.boxX;
-                    CubeContainer.boxY = cube.boxY;
-                    CubeContainer.cubeSize = cube.cubeSize;
-                    CubeContainer.rotX = cube.rotX;
-                    CubeContainer.rotY = cube.rotY;
-                }
-            });
-            setSliders();
-            updateAlias();
-        }
-        
-        window.onload = updateCubeList;
-    </script>
+    <script src="./cube-script.js"></script>
 </head>
 <body>
 <h1> Processing Web App </h1>
 
-<h2> Cube </h2>	
+<h2> Cube </h2>	    
+<script type="text/processing" data-processing-target="testcanvas">
+void setup(){
+    size(400, 400, OPENGL);
+    fill(#4f79c1);
+    stroke(180);
+    strokeWeight(2);
+}
+
+void draw(){
+    background(240);
     
-<canvas id="testcanvas"></canvas>
-    
-<script id="script1" type="text/javascript">
-    // Attaching js code to the canvas by using a sketch object
-    var sketch = new Processing.Sketch();
-    
-    // define 3D context
-    sketch.use3DContext = true;
-    // attach function (also, can be specified as the single parameter 
-    // in the Processing.Sketch object constructor)
-    sketch.attachFunction = function(processing) {
-        
-        function drawSpheres(n){
-            for(var i = 0; i < n; i++){
-                processing.noStroke();
-                processing.translate(i*i, i*i, 0);
-                processing.sphere(i*20);
-            }
+    for(int i = 0; i<CubeArray.length; i++){
+        pushMatrix();
+        if((255-i*20) > 0){
+            fill(255-i*20);
+        } else {
+            fill(100, 50, 50);
         }
-        
-        processing.setup = function() {
-            processing.size(400, 400, processing.P3D);
-            processing.fill(50);
-            processing.stroke(180);
-            processing.strokeWeight(2);
-        };
-
-        processing.draw = function() {
-            processing.background(240);
-            //draw a 3d box
-            processing.translate(CubeContainer.boxX, CubeContainer.boxY, 0); 
-            processing.rotateY(CubeContainer.rotY);
-            processing.rotateX(CubeContainer.rotX);
-            processing.box(CubeContainer.cubeSize);
-        };
-        
-        // mouse event
-        processing.mouseDragged = function() {
-            var rate = 0.01;
-            CubeContainer.rotX += (processing.pmouseY-processing.mouseY) * rate;
-            CubeContainer.rotY += (processing.mouseX-processing.pmouseX) * rate;
-            
-            setSliders();
-        };
-        
-    };
+        drawCube(CubeArray[i].cubeSize, CubeArray[i].boxX, CubeArray[i].boxY, CubeArray[i].rotX, CubeArray[i].rotY);       
+        popMatrix();
+    }
+    //draw a 3d box
+    /*
+    pushMatrix();
+    fill(50);
+    drawCube(CubeContainer.cubeSize, CubeContainer.boxX, CubeContainer.boxY, CubeContainer.rotX, CubeContainer.rotY);    
+    popMatrix()
     
-    // attaching the sketchProc function to the canvas
-    var canvas = document.getElementById("testcanvas");
-    var p = new Processing(canvas, sketch);
+    //another cube
+    pushMatrix();
+    fill(80, 180, 150);
+    drawCube(50, 200, 300, 10, 5);
+    popMatrix();
+    */
+}
 
+// mouse event
+void mouseDragged(){
+    var rate = 0.01;
+    CubeContainer.rotX += (pmouseY - mouseY) * rate;
+    CubeContainer.rotY += (mouseX - pmouseX) * rate;
+
+    setSliders();
+}
+
+void drawCube(int size, int x, int y, int rotX, int rotY){
+    translate(x, y, 0); //z coordinate is always 0 for simplicity
+    rotateY(rotY);
+    rotateX(rotX);
+    box(size);
+}
+
+void addCubeToSketch(int red, int green, int blue){
+    pushMatrix();
+    fill(red, green, blue);
+    drawCube(50, 20, 20, 0, 0);
+    popMatrix();
+}
 </script>
+   
+<canvas id="testcanvas"></canvas>
     
 <div class="cube-inputs-wrap">
     <div class="cube-input">x-coordinate: 
@@ -212,9 +88,11 @@
         <div id="cube-alias-input">Current cube alias: </div>    
     </div>
     <div><button onclick="postValues()">Save cube settings</button></div>
+    <div><button onclick="addCubeToCubeArray()">Add cube</button></div>
 </div>
     
 <div id="saved-cubes-list"></div>
     
+<div><a class="more-link" href="./more-sketches.html"> more sketches </a></div>
 </body>
 </html>
