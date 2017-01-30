@@ -21,6 +21,12 @@ void setup(){
 void draw(){
     background(240);
     
+    //cube with current settings    
+    pushMatrix();
+    fill(#4f79c1);
+    drawCube(CubeContainer.cubeSize, CubeContainer.boxX, CubeContainer.boxY, CubeContainer.rotX, CubeContainer.rotY);    
+    popMatrix();
+    
     for(int i = 0; i<CubeArray.length; i++){
         pushMatrix();
         if((255-i*20) > 0){
@@ -31,19 +37,7 @@ void draw(){
         drawCube(CubeArray[i].cubeSize, CubeArray[i].boxX, CubeArray[i].boxY, CubeArray[i].rotX, CubeArray[i].rotY);       
         popMatrix();
     }
-    //draw a 3d box
-    /*
-    pushMatrix();
-    fill(50);
-    drawCube(CubeContainer.cubeSize, CubeContainer.boxX, CubeContainer.boxY, CubeContainer.rotX, CubeContainer.rotY);    
-    popMatrix()
-    
-    //another cube
-    pushMatrix();
-    fill(80, 180, 150);
-    drawCube(50, 200, 300, 10, 5);
-    popMatrix();
-    */
+   
 }
 
 // mouse event
@@ -87,10 +81,15 @@ void addCubeToSketch(int red, int green, int blue){
         <button onclick="updateAlias()">Enter alias</button>
         <div id="cube-alias-input">Current cube alias: </div>    
     </div>
-    <div><button onclick="postValues()">Save cube settings</button></div>
+    <div><button onclick="postSketch()">Save sketch</button></div>
+    <div><button onclick="postValues()">Save cube values</button></div>
     <div><button onclick="addCubeToCubeArray()">Add cube</button></div>
 </div>
-    
+
+<h3>Saved sketches</h3>
+<div id="saved-sketches-list"></div>
+
+<h3>Saved cubes</h3>
 <div id="saved-cubes-list"></div>
     
 <div><a class="more-link" href="./more-sketches.html"> more sketches </a></div>

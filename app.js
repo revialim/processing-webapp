@@ -15,13 +15,14 @@ app.get('/hello', function (req, res) {
 
 app.get('/cubes/:id', function(req, res) {
     console.log("Somebody wanted cube number " + req.params.id);
+    cubeStorage.findbyID(req.params.id, 'cubes');
 });
 
 app.get('/cubes', function(req, res) {
     console.log("Selecting all cubes");
     // console.log("Selected cubes" + cubeStorage.findAll() + "with to array: "+ cubeStorage.findAll().toArray());
     
-    cubeStorage.findAll().toArray().then(function(arr){
+    cubeStorage.findAll('cubes').toArray().then(function(arr){
         res.send(arr);
     });
 });
@@ -29,7 +30,20 @@ app.get('/cubes', function(req, res) {
 app.post('/cubes', function(req, res){
     console.log("Creating new cube entry");
     console.log(req.body);
-    cubeStorage.create(req.body);
+    cubeStorage.create(req.body, 'cubes');
+    res.status(201).end();
+});
+
+app.get('/cubeSketches', function(req, res) {
+    console.log("Selecting all sketches");
+    cubeStorage.findAll('sketches').toArray().then(function(arr){
+        res.send(arr);
+    });
+});
+
+app.post('/cubeSketches', function(req, res){
+    console.log("Creating new sketch entry");
+    cubeStorage.create(req.body, 'sketches');
     res.status(201).end();
 });
 

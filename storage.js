@@ -11,17 +11,20 @@ var url = 'mongodb://localhost:27017/myproject';
 var Database = function() {};
 
 //Define CRUD operations
-//find by id (read)
-Database.prototype.findbyID = function(id){
-   
+//find by id (read) 
+/* not used
+Database.prototype.findbyID = function(id, collectionName){
+    return mydb.collection(collectionName).find({"_id": id});
 };
+*/
+
 //find list
-Database.prototype.findAll = function(){
-    return mydb.collection('cubes').find({});
+Database.prototype.findAll = function(collectionName){
+    return mydb.collection(collectionName).find({});
 }
 //create
-Database.prototype.create = function(cubeObj) {
-    mydb.collection('cubes').insertOne(cubeObj);
+Database.prototype.create = function(cubeObj, collectionName) {
+    mydb.collection(collectionName).insertOne(cubeObj);
 };
 
 //delete

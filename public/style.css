@@ -38,6 +38,16 @@ button, .more-link {
   background-color: #4f79c1;
 }
 
+#saved-cubes-list div.wrapper, #saved-sketches-list div.wrapper {
+  padding: 5px 0;
+  display: block;
+}
+#saved-cubes-list div.wrapper div, #saved-cubes-list div.wrapper ul, #saved-cubes-list div.wrapper button, #saved-sketches-list div.wrapper div, #saved-sketches-list div.wrapper ul, #saved-sketches-list div.wrapper button {
+  vertical-align: top;
+  display: inline-block;
+  margin: 0 5px;
+}
+
 @media (min-width: 426px) {
   .cube-inputs-wrap {
     display: inline-block;
