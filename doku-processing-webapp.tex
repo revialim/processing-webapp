@@ -93,11 +93,11 @@ captionpos=b
 
 \section{Einleitung}
 
-Die Processing-Webapp soll einige der Möglichkeiten, die sich mit Processing und Processing.js ergeben, demonstrieren und Nutzern ohne Vorkenntnisse in Programmierung oder visuellen Bearbeitung von 2D- oder 3D-Objekten näherbringen.
+Die \textbf{Processing-Webapp} soll einige der Möglichkeiten, die sich mit \emph{Processing} und \emph{Processing.js} ergeben, demonstrieren und Nutzern ohne Vorkenntnisse in Programmierung oder visuellen Bearbeitung von 2D- oder 3D-Objekten näherbringen.
 In diesem Projekt wurde eine interaktive Processing-Skizze erstellt und eine REST-Schnittstelle geschaffen, um die erstellten Skizzen direkt für andere Nutzer der Webseite verfügbar zu machen.
 
 \subsection{Beschreibung der Software als Produkt} 
-Die Processing Webapp ist eine Applikation zum Experimentieren an verschiedenen Parametern eines Objekts, das mit Hilfe von Processing beschrieben und gerendert wird. 
+Die Processing-Webapp ist eine Applikation zum Experimentieren an verschiedenen Parametern eines Objekts, das mit Hilfe von Processing beschrieben und gerendert wird. 
 Welches Objekt konkret angeboten wird hängt von dem Anbieter ab. In diesem Beispiel ist es anfangs nur ein Würfel. Dieser Würfel lässt sich in einem dreidimensionalen Raum in seiner Größe skalieren, in alle Richtungen drehen und in seiner Position auf allen der x- und y-Achse verschieben. 
 Als zusätzliches Feature können, nach dem Festlegen des aktuellen Würfels, weitere Würfel nach und nach hinzugefügt werden und dadurch eine Skizze erstellt werden.
 Diese Informationen können mit einem Klick auf den "Speichern"-Button in eine öffentliche Liste hinterlegt werden. Diese Liste ist so aufgebaut, dass sie auf der selben Seite angezeigt und beim Speichern eines neuen Objekts aktualisiert wird. Zusätzlich lässt sich jedes Objekt der Liste mit einem Klick auf den "Anzeigen"-Button in der Processing-Canvas anzeigen.\\
@@ -221,7 +221,7 @@ Diese Methode gibt eine Liste von allen gespeicherten Würfel-Objekten zurück. 
   "rotY" : 0.5 
   }
 \end{lstlisting}
-In der POST-Methode wird ein Würfel-Objekt übergeben, in welchem noch keine Id festgelegt ist. Diese wird wie oben beschrieben von der Datenbank festgelegt. Die Antwort ist leer und durch den Statuscode 201 wird signalisiert, dass die Erstellung erfolgreich war.
+In der POST-Methode wird ein Würfel-Objekt übergeben, in welchem noch keine Id festgelegt ist. Diese wird wie oben beschrieben von der Datenbank festgelegt. Die Antwort ist leer und durch den Statuscode \texttt{201} wird signalisiert, dass die Erstellung erfolgreich war.
 \\\\
 \textbf{GET /cubeSketches}\\\\
 \begin{lstlisting}[language=JavaScript, caption={Response-Body der POST-Operation auf "/cubeSketches"},label={sketchget}]
