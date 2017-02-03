@@ -12,11 +12,14 @@ app.get('/hello', function (req, res) {
     res.send('Hello World!');
 });
 */
-
+/*
 app.get('/cubes/:id', function(req, res) {
     console.log("Somebody wanted cube number " + req.params.id);
-    cubeStorage.findbyID(req.params.id, 'cubes');
+    cubeStorage.findbyID(req.params.id, 'cubes').toArray().then(function(arr){
+        res.send(arr);
+    });
 });
+*/
 
 app.get('/cubes', function(req, res) {
     console.log("Selecting all cubes");

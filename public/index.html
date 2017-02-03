@@ -12,7 +12,7 @@
 <h2> Cube </h2>	    
 <script type="text/processing" data-processing-target="testcanvas">
 void setup(){
-    size(400, 400, OPENGL);
+    size(400, 400, P3D);
     fill(#4f79c1);
     stroke(180);
     strokeWeight(2);
@@ -49,7 +49,7 @@ void mouseDragged(){
     setSliders();
 }
 
-void drawCube(int size, int x, int y, int rotX, int rotY){
+void drawCube(int size, int x, int y, float rotX, float rotY){
     translate(x, y, 0); //z coordinate is always 0 for simplicity
     rotateY(rotY);
     rotateX(rotX);
@@ -84,6 +84,7 @@ void addCubeToSketch(int red, int green, int blue){
     <div><button onclick="postSketch()">Save sketch</button></div>
     <div><button onclick="postValues()">Save cube values</button></div>
     <div><button onclick="addCubeToCubeArray()">Add cube</button></div>
+    <div><button onclick="clearCanvas()">Reset</button></div>
 </div>
 
 <h3>Saved sketches</h3>

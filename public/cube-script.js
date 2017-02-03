@@ -8,19 +8,6 @@ window.CubeContainer = {
     rotY : 0.5
 };
 
-/*
-class Cube {
-    constructor(x,y,size,rotx,roty){
-        this.xcoord = x;
-        this.ycoord = y;
-        this.size = size;
-        this.rotx = rotx;
-        this.roty = roty;
-    }
-}
-*/
-
-
 var cube1 = CubeContainer;
 window.CubeArray = [cube1];
 
@@ -154,6 +141,10 @@ function showSketch(id) {
         }
     });
     
+}
+
+function clearCanvas() {
+    CubeArray = [cube1];
 }
 
 //update list of saved sketches

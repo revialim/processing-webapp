@@ -1,6 +1,9 @@
 <h1> Processing Webapp </h1>
 
 <h2> Technologies Used </h2>
+<h3> Run project: </h3>
+node app.js
+
 <h3> ProcessingJS </h3>
 <ul>
 <li><a href="http://processingjs.org/">http://processing.org/</a></li>
