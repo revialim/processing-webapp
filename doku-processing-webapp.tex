@@ -1,0 +1,450 @@
+\documentclass[12pt, ngerman, utf8]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage[pass]{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{float}
+
+%Customize a bit the look
+\lstset{ %
+backgroundcolor=\color{white}, % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+basicstyle=\footnotesize, % the size of the fonts that are used for the code
+breakatwhitespace=false, % sets if automatic breaks should only happen at whitespace
+breaklines=true, % sets automatic line breaking
+captionpos=b, % sets the caption-position to bottom
+commentstyle=\color{mygreen}, % comment style
+deletekeywords={...}, % if you want to delete keywords from the given language
+escapeinside={\%*}{*)}, % if you want to add LaTeX within your code
+extendedchars=true, % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+frame=single, % adds a frame around the code
+keepspaces=true, % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{blue}, % keyword style
+% language=Octave, % the language of the code
+morekeywords={*,...}, % if you want to add more keywords to the set
+numbers=left, % where to put the line-numbers; possible values are (none, left, right)
+numbersep=5pt, % how far the line-numbers are from the code
+numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+rulecolor=\color{black}, % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+showspaces=false, % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+showstringspaces=false, % underline spaces within strings only
+showtabs=false, % show tabs within strings adding particular underscores
+stepnumber=1, % the step between two line-numbers. If it's 1, each line will be numbered
+stringstyle=\color{mymauve}, % string literal style
+tabsize=2, % sets default tabsize to 2 spaces
+title=\lstname % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+%END of listing package%
+ 
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+ 
+%define Javascript language
+\lstdefinelanguage{JavaScript}{
+keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+keywordstyle=\color{blue}\bfseries,
+ndkeywords={class, export, boolean, throw, implements, import, this},
+ndkeywordstyle=\color{darkgray}\bfseries,
+identifierstyle=\color{black},
+sensitive=false,
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{purple}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+morestring=[b]',
+morestring=[b]"
+}
+ 
+\lstset{
+language=JavaScript,
+extendedchars=true,
+basicstyle=\footnotesize\ttfamily,
+showstringspaces=false,
+showspaces=false,
+numbers=left,
+numberstyle=\footnotesize,
+numbersep=9pt,
+tabsize=2,
+breaklines=true,
+showtabs=false,
+captionpos=b
+}
+
+\renewcommand{\contentsname}{Inhalt}
+\renewcommand{\lstlistingname}{Beispiel}
+\renewcommand{\lstlistlistingname}{Liste der \lstlistingname e}
+
+
+\begin{document}
+\title{Webanwendung in Processing \\
+		\large Projektdokumentation}
+\author{Lilian Hung}
+
+\maketitle
+
+\newpage
+
+\tableofcontents 
+
+\lstlistoflistings
+
+\newpage
+
+\section{Einleitung}
+
+Die Processing-Webapp soll einige der Möglichkeiten, die sich mit Processing und Processing.js ergeben, demonstrieren und Nutzern ohne Vorkenntnisse in Programmierung oder visuellen Bearbeitung von 2D- oder 3D-Objekten näherbringen.
+In diesem Projekt wurde eine interaktive Processing-Skizze erstellt und eine REST-Schnittstelle geschaffen, um die erstellten Skizzen direkt für andere Nutzer der Webseite verfügbar zu machen.
+
+\subsection{Beschreibung der Software als Produkt} 
+Die Processing Webapp ist eine Applikation zum Experimentieren an verschiedenen Parametern eines Objekts, das mit Hilfe von Processing beschrieben und gerendert wird. 
+Welches Objekt konkret angeboten wird hängt von dem Anbieter ab. In diesem Beispiel ist es anfangs nur ein Würfel. Dieser Würfel lässt sich in einem dreidimensionalen Raum in seiner Größe skalieren, in alle Richtungen drehen und in seiner Position auf allen der x- und y-Achse verschieben. 
+Als zusätzliches Feature können, nach dem Festlegen des aktuellen Würfels, weitere Würfel nach und nach hinzugefügt werden und dadurch eine Skizze erstellt werden.
+Diese Informationen können mit einem Klick auf den "Speichern"-Button in eine öffentliche Liste hinterlegt werden. Diese Liste ist so aufgebaut, dass sie auf der selben Seite angezeigt und beim Speichern eines neuen Objekts aktualisiert wird. Zusätzlich lässt sich jedes Objekt der Liste mit einem Klick auf den "Anzeigen"-Button in der Processing-Canvas anzeigen.\\
+\begin{figure}[p]
+    \centering
+    \includegraphics[scale=0.8]{02_web-app-overview.png}
+    \caption{Aufbau}
+%    \label{fig:awesome_image}
+\end{figure}
+
+\section{Technische Dokumentation}
+\subsection{Processing und Processing.js}
+In der Applikation ist Processing.js ein zentrales Werkzeug. Processing.js ist eine Bibliothek und ein Übersetzer für die visuelle Programmiersprache Processing in JavaScript, um eine direkte Einbindung in Webseiten zu ermöglichen. 
+
+Processing wurde ursprünglich für (bildende) Künstler und Designer entwickelt, um einen schnelleren und einfacheren Zugang zum Programmieren zu ermöglichen. Es ermöglicht hauptsächlich die Erstellung von Illustrationen und Animationen in einem digitalen Kontext. Processing baut auf der Programmiersprache Java auf. Es ist in einigen Punkten vereinfacht – unter anderem in seiner Syntax – und beinhaltet eine vereinfachte Java-Schnittstelle zum Erstellen von Grafiken. Die Verwendung von Processing findet in einer eigenen integrierten Entwicklungsumgebung statt, die bereits die programmierte Skizze rendern kann.\\\\
+Wie erwähnt ermöglicht Processing.js den Einsatz von Processing direkt integriert in Webseiten mittels HTML5 und dem Canvas-Tag. Es gibt grob gesehen drei verschiedene Möglichkeiten, Processing-Skizzen in eine Webseite einzufügen. Diese Methoden sind nicht ausschließlich auf diese Art zu nutzen, sondern können miteinander verwendet beziehungsweise stückweise ausgetauscht werden.\\
+Die erste wäre ein Canvas zu erstellen und darin eine Processing-Datei (\texttt{.pde}) zu referenzieren (Siehe \ref{proc1}). Diese Methode ist sehr simpel. Es ist aber auch möglich ein Script zu schreiben, das Inhalte der eingebundenen Processing-Datei abruft oder verändert.\\
+Die zweite Möglichkeit wäre, den Processing-Code, wie man ihn auch nativ in Processing selbst schreiben würde, mittels eines Script-Tags einzubinden (Siehe \ref{proc2}).\\
+Letztere Möglichkeit ist es, keinen Processing-Code zu schreiben, sondern nur die Bibliothek von Processing.js zu nutzen und die Processing-Anweisungen in JavaScript in einem Sketch-Objekt zu schreiben und dieses dann in einem neuen Processing-Object einzubinden (Siehe \ref{proc3}). Hier ist gut zu erkennen, dass die Verwendungsweisen von Processing.js viel Spielraum haben. Letztere Möglichkeit gibt weiterhin einen Einblick darin, wie Processing.js den Processing code kompilieren würde. \\\\
+
+\begin{lstlisting}[language=JavaScript, caption={Einbinden in Canvas-Tag},label=proc1]
+<canvas data-processing-sources="hello-web.pde"></canvas>
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript, caption={Processing-Code in Script-Tag},label=proc2]
+<script type="text/processing" data-processing-target="canvasID">
+void setup(){
+    ...
+}
+
+void draw(){
+    ...
+}
+</script>
+<canvas id="canvasID"></canvas>
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript, caption={Processing.js als Library in JavaScript},label=proc3]
+<canvas id="canvasID"></canvas>
+<script type="application/javascript">
+    var sketch = new Processing.Sketch();
+
+    sketch.attachFunction = function(processing) {
+        
+        processing.setup = function() {
+        	...
+        };
+        processing.draw = function() {
+            ...
+        };        
+    };
+    
+    var canvas = document.getElementById("canvasID");
+    // attaching the sketch to the canvas
+    var p = new Processing(canvas, sketch);
+</script>
+\end{lstlisting}
+
+\subsubsection{Skizzenaufbau}
+Wie in Beispiel \ref{proc2} und \ref{proc3} sichtbar, werden in Processing wiederkehrend die Funktionen \texttt{setup()} und \texttt{draw()} verwendet. Diese beiden Funktionen werden benötigt, um eine Skizze aufzubauen. In \texttt{setup()} werden in der Regel die Größe, bei einer Animation die Framerate, Hintergrundfarbe oder weitere Eigenschaften definiert, die einmal festgelegt sein sollten, damit die Skizze von Anfang an korrekt gezeichnet wird.\\
+Wie erwähnt wird in \texttt{setup()} die Größe der Skizze festgelegt. Dafür wird die Funktion \texttt{size()} verwendet. \texttt{size()} hat Parameter für die Höhe und Breite und zusätzlich noch die Option den \emph{Kontext} der Skizze. Dieser Kontext legt fest, ob die Skizze zwei- oder dreidimensional ist. Für den zweidimensionalen Kontext ist es nicht zwingend notwendig, den Parameter anzugeben. Sollte man allerdings für den dreidimensionalen Kontext den Parameter vergessen, so werden dreidimensionale Objekte nicht gezeichnet. Als Parameter für den dreidimensionalen Kontext sind beispielsweise \texttt{P3D} und \texttt{OPENGL} möglich. (Siehe auch \ref{setupbsp})\\
+In \texttt{draw()} werden jene Definitionen gemacht, die ein regelmäßiges Update benötigen, um wie gewünscht angezeigt zu werden.
+
+\begin{lstlisting}[language=JavaScript, caption={setup()-Funktion},label=setupbsp]
+setup(){
+    size(400, 400, P3D);
+    ...
+}
+\end{lstlisting}
+
+\subsubsection{Würfel in Processing und Processing.js}
+Das zentrale Objekt, welches in der Applikation zur Verwendung kommt, ist der dreidimensionale Würfel (\ref{boxbsp}). 
+\begin{lstlisting}[language=JavaScript, caption={box()-Funktion},label=boxbsp]
+box(10);
+box(20, 10, 30);
+\end{lstlisting}
+Die \texttt{box()}-Funktion lässt einen Würfel oder auch einen Quader zeichnen, je nachdem, ob ein oder drei Parameter übergeben werden. Für weitere Änderungen am Erscheinungsbild des Würfels werden die Funktionen \texttt{translate()}, \texttt{rotateX()}, \texttt{rotateY()} und \texttt{rotateZ()} benötigt.\\
+Die \texttt{translate()}-Funktion nimmt im dreidimensionalen Raum die Transformation in x-, y- und z-Richtung entgegen. Die Rotationsfunktionen (\texttt{rotateX()}, \texttt{rotateY()}, \texttt{rotateZ()}) lassen das Objekt auf den jeweiligen Achsen rotieren. Diese Modellierungen gelten ohne weitere Definitionen für alle Objekte. Um Objekte unabhängig von den Modellierungen anderer Objekte zu machen müssen die Funktionen \texttt{pushMatrix()} und \texttt{popMatrix()} verwendet werden. Diese Funktionen spalten die Modellierungen von einander ab (siehe \ref{transformationen}).
+\begin{lstlisting}[language=JavaScript, caption={Modellierungsfunktionen},label=transformationen]
+pushMatrix();
+fill(200, 120, 190);
+translate(200, 120, 0);
+rotateY(0.5);
+rotateX(0.5);
+box(60);
+popMatrix();
+\end{lstlisting}
+
+\subsection{Dokumentation der REST-Schnittstelle}
+Die REST-Schnittstelle stellt folgende Methoden und URLs bereit, die jeweils mit der Struktur des Request-Pfades und der Antwort angegeben werden.\\\\
+
+\textbf{GET /cubes}\\\\
+\begin{lstlisting}[language=JavaScript, caption={Response-Body der GET-Operation auf "/cubes"},label={cubesget}]
+[{ "_id" : "58774fa2bb8bdd1faaf2f352",
+   "alias" : "cubey",
+   "boxX" : "267",
+   "boxY" : "95",
+   "cubeSize" : "69",
+   "rotX" : "0.89",
+   "rotY" : "4.76"
+}, { 
+   "_id" : "587b5bf2dad06947f5b9e0b7",
+   "alias" : "cube2",
+   "boxX" : 100,
+   "boxY" : 100,
+   "cubeSize" : 90,
+   "rotX" : 0.5,
+   "rotY" : 0.5
+  }, 
+  { ... }, ...]
+\end{lstlisting}
+Diese Methode gibt eine Liste von allen gespeicherten Würfel-Objekten zurück. Diese bestehen jeweils aus einer eindeutigen Id und den Attributen des Würfels. Die Id wird von der Datenbank zum Zeitpunkt der Erstellung vergeben. Die Id wird im diesem Projekt nicht verwendet, aber die Option das Projekt um eine Methode zum Abruf eines bestimmten Würfels zu erweitern ist somit gegeben.
+\\\\
+\textbf{POST /cubes}\\\\
+\begin{lstlisting}[language=JavaScript, caption={Request-Body der POST-Operation auf "/cubes"},label={cubespost}]
+{ "alias" : "testcube",
+  "boxX" : 100,
+  "boxY" : 100,
+  "cubeSize" : 90,
+  "rotX" : 0.5,
+  "rotY" : 0.5 
+  }
+\end{lstlisting}
+In der POST-Methode wird ein Würfel-Objekt übergeben, in welchem noch keine Id festgelegt ist. Diese wird wie oben beschrieben von der Datenbank festgelegt. Die Antwort ist leer und durch den Statuscode 201 wird signalisiert, dass die Erstellung erfolgreich war.
+\\\\
+\textbf{GET /cubeSketches}\\\\
+\begin{lstlisting}[language=JavaScript, caption={Response-Body der POST-Operation auf "/cubeSketches"},label={sketchget}]
+[
+  {
+    "_id": "588f01f9bb2430292720f665",
+    "cubes": [
+      {
+        "alias": "genericCubeAlias",
+        "boxX": "99",
+        "boxY": "204",
+        "cubeSize": "55",
+        "rotX": "3.38",
+        "rotY": 0.5
+      },
+      {
+        "alias": "genericCubeAlias",
+        "boxX": "81",
+        "boxY": "85",
+        "cubeSize": "55",
+        "rotX": "3.38",
+        "rotY": 0.5
+      },
+      {
+        "alias": "genericCubeAlias",
+        "boxX": "225",
+        "boxY": "85",
+        "cubeSize": "55",
+        "rotX": "3.38",
+        "rotY": 0.5
+      }
+    ]
+  },
+  {
+    "_id": "5892422d89fc95049f562c69",
+    "cubes": [
+      {
+        "alias": "genericCubeAlias",
+        "boxX": "99",
+        "boxY": "204",
+        "cubeSize": "55",
+        "rotX": "3.38",
+        "rotY": 0.5
+      }
+    ]
+  }
+]
+\end{lstlisting}
+Wie in im Beispiel \ref{sketchget} zusehen ist, besteht die Anwort aus einer in sich verschachtelten Struktur. Die äußerste Ebene ist eine Liste von Sketch-Objekten. Diese haben wiederum jeweils eine eindeutige Id und eine Liste von Würfeln als Attribute. Die Liste von Würfeln enthält Würfel-Objekte, ähnlich wie bei der Antwort der GET-Methode von "/cubes", wobei die Würfel hier keine Id besitzen.
+\\\\
+\textbf{POST /cubeSketches}\\\\
+\begin{lstlisting}[language=JavaScript, caption={Request-Body der POST-Operation auf "/cubeSketches"},label={sketchpost}]
+{"cubes" : [ 
+{ 
+	"alias" : "testcube", 
+	"boxX" : "257", 
+	"boxY" : "102", 
+	"cubeSize" : 90, 
+	"rotX" : "3.6",
+	"rotY" : "1.0"
+	},
+{
+	"alias" : "testcube",
+	"boxX" : 100,
+	"boxY" : 100,
+	"cubeSize" : 90,
+	"rotX" : 0.5,
+	"rotY" : 0.5
+	},
+{
+	"alias" : "testcube",
+	"boxX" : "99",
+	"boxY" : "102",
+	"cubeSize" : 90,
+	"rotX" : "3.6",
+	"rotY" : "4.54"
+	} 
+]
+}
+\end{lstlisting}
+Die Methode \texttt{POST /cubeSketches} funktioniert analog zu post cubes. Das Objekt hat ein einziges Attribut "cubes", welches eine Liste von einzelnen Würfel-Objekten zugewiesen hat.
+Die Id für ein solches Objekt wird wieder von der Datenbank hinzugefügt.
+Die zusätzliche Verschachtelung in einem weiteren Objekt ist notwendig, da die Datenbank eine Speicherung einer Liste von Objekten nicht ermöglicht.
+
+\subsection{Serverseitige Implementierung}
+Die REST-Schnittstelle ist unter Verwendung von \emph{Node.js} und \emph{Express.js} implementiert worden. Sie besteht aus zwei Komponenten. Die eine Komponente ist der Controller (\texttt{app.js}), in dem die REST-Methoden implementiert sind und gleichzeitig das Routing definiert ist. Die andere Komponente ist das Datenbankmodul, das unter Verwendung des MongoDB-Clients für \emph{Node.js} die benötigten CRUD-Operationen bereitstellt. In diesem Projekt sind es konkret nur das Lesen aller Objekte und das Erstellen eines neuen Objekts in der zugehörigen Collection. Die Namen der jeweiligen Collections sind statisch und global über das gesamter Projekt definiert.\\
+Es kann ein einzelner Würfel gespeichert werden oder eine Skizze, die eine Liste von Würfeln enthält. In \texttt{storage.js} werden diese Such- und Schreibanfragen implementiert (\ref{rest1}). 
+Aufgerufen werden die Datenbank-Operationen in \texttt{app.js} (siehe Beispiel \ref{appjs}). Sowohl die \texttt{findAll}-Methode als auch die \texttt{create}-Methode erhalten den Parameter \texttt{collectionName}. Diese Bestimmen, in welche Collection die Werte geschrieben werden, da es wie erwähnt in der Applikation möglich ist einzelne Würfel-Einstellungen oder ganze Skizzen bestehend aus einem oder mehreren Würfeln zu speichern.\\\\
+
+\begin{lstlisting}[language=JavaScript, caption={CRUD-Operationen aus storage.js},label=storagejs]
+[...]
+//find list
+Database.prototype.findAll = function(collectionName){
+    return mydb.collection(collectionName).find({});
+}
+//create
+Database.prototype.create = function(cubeObj, collectionName) {
+    mydb.collection(collectionName).insertOne(cubeObj);
+};
+[...]
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript, caption={Request-Routing und Implementierung der REST-Methoden aus app.js},label=appjs]
+[...]
+app.get('/cubeSketches', function(req, res) {
+    console.log("Selecting all sketches");
+    cubeStorage.findAll('sketches').toArray().then(function(arr){
+        res.send(arr);
+    });
+});
+
+app.post('/cubeSketches', function(req, res){
+    console.log("Creating new sketch entry");
+    cubeStorage.create(req.body, 'sketches');
+    res.status(201).end();
+});
+[...]
+\end{lstlisting}
+
+\subsection{Datenbankmodell}
+Die verwendete Datenbank heißt MongoDB und ist eine NoSQL-Datenbank. Die Modelle, die bei diesem Projekt zum Einsatz kommen sind das "Document Model" und das "Multivalue model".\\
+Die Datenbank enthält zwei Collections, eine für einzelne Würfel-Objekte und eine weitere für Listen von Würfelobjekten. Diese Aufteilung hat sich aus der Projektentwicklung ergeben, in welcher anfangs nur das einzelne Würfel-Objekt existierte.\\
+
+\begin{table}[htb]
+\begin{center}
+ \begin{tabular}{|c|c|c|c|c|c|c|} 
+ \hline
+ \verb|_id| & alias & boxX & boxY & cubeSize & rotX & rotY \\ [0.5ex] 
+ \hline\hline
+ 111 & someCube & 10 & 200 & 54 & 0.5 & 0.4 \\ 
+ \hline
+ 135 & ... &  & & & &\\
+ \hline
+ ... & ... &  & & & &\\ [1ex] 
+ \hline
+\end{tabular}
+\end{center}
+ \caption{Aufbau der Würfel-Collection}
+\end{table}
+
+\begin{table}[htb]
+\begin{center}
+ \begin{tabular}{|c|c|} 
+ \hline
+ \verb|_id| & cubes \\ [0.5ex] 
+ \hline\hline
+ 123 & [\{ cube1 \}, \{ cube2 \}, \{ cube3 \}] \\ 
+ \hline
+ 124 & [\{ cube1 \}] \\
+ \hline
+ 349 & [...] \\
+ \hline
+ ... &  ... \\ [1ex] 
+ \hline
+\end{tabular}
+\end{center}
+ \caption{Aufbau der Skizzen-Collection}
+\end{table}
+
+\section{Entwicklungs- und Umsetzungsphase}
+Das Projekt habe ich aufbauend auf einer im HTML eingebundenen Processing-Skizze strukturiert. Zuerst habe ich ein Objekt gesucht, das sich mit nicht all zu komplexen Mitteln manipulieren lässt. Die Koordinaten und Drehung eines dreidimensionalen Würfels haben sich dafür als gut geeignet erwiesen.
+Da die Client-Seite bereits durch JavaScript beziehungsweise auch Processing dominiert wurde, wollte ich auch auf der Server-Seite ein Framework in JavaScript verwenden, um beidseitig mit der selben Sprache zu arbeiten.
+
+Das Framework habe ich schließlich nach seiner Flexibilität und Schlankheit ausgewählt, da ich für die Umsetzung kein großes, umfangreiches Framework brauchte. Es werden keine object-relationale Mapper implementiert, sondern die Daten werden direkt als JSON-Dokumente abgelegt.
+
+Processing kannte ich zuvor schon und habe es hauptsächlich in seiner eigenen Desktopanwendung verwendet. Für dieses Projekt wollte ich Processing.js ausprobieren und es in einem für andere Nutzer interaktiven Rahmen zur Anwendung bringen.
+
+Client-seitig habe ich nur \emph{jQuery} und das \emph{Document-Object-Model} verwendet, da alle außerhalb des Processing-Codes implementierten Funktionen kein Framework erforderten. Der komplexere Teil der Implementierung befindet sich im Processing-Code. Sollte die Applikation jedoch größer werden und mehr Features benötigen, kann sie beispielsweise auch mittels eines Frameworks erweitert werden.
+
+\subsection{Definition der Zielgruppe}
+Da die Processing-Webapp ohne Login verfügbar ist, soll sie generell allen interessierten Personen einen Zugang zu Processing bieten. Zum einen ist die Applikation von Personen ohne Programmierkenntnisse gut zu verstehen und zu bedienen, zum anderen können auch Personen mit Vorkenntnissen in der Programmierung sich Beispiele zu den Möglichkeiten mit Processing ansehen.\\\\
+Sollte die Processing-Webapp erweitert werden, kann sie außerdem auch kreativen Personen dazu dienen, Bilder mit Processing zu erstellen, ohne Code schreiben zu müssen. Die Speicherung der Skizzen ermöglicht zusätzlich eine Erreichbarkeit von Personen, die nach Inspiration suchen.
+
+\subsection{Projektziele}
+Zu Beginn des Projekts wurden einige Ziele festgelegt. Unter anderem sollte die Benutzung der Applikation ohne Erstellung eines Kontos, also ohne Login, möglich sein. Eine Erweiterung um zusätzliche Inhalte, die nur mit Login zur Verfügung stehen, ist nicht ausgeschlossen.\\
+Außerdem sollte es die Option zum Editieren, Speichern und Veröffentlichen von Processing-Objekten geben. Es hat sich während der Umsetzung auch noch das Ziel ergeben, dass nicht nur einzelne Objekte, sondern auch Skizzen bestehend aus mehreren Objekten erstellt und gespeichert werden können.\\\\
+Zu Beginn des Projekts waren die User-Stories folgendermaßen definiert:
+\begin{itemize}
+\item Der Nutzer sieht eine Processing-Canvas und kann mit dieser interagieren. (Zum Beispiel indem er das Aussehen eines angezeigten Objekts ändern kann.)
+\item Der Nutzer kann individuelle Objekte beziehungsweise deren Einstellungen in einer serverseitigen Datenbank ablegen.
+\item Der Nutzer kann individuelle Objekt-Einstellungen aus einer Liste abrufen, welche auch von anderen Nutzern erstellt wurde.
+\end{itemize}
+Im folgenden Abschnitt werden die umgesetzten Nutzerinteraktionen im Detail beschrieben.
+
+\subsection{Nutzerinteraktionen}
+Der Nutzer erreicht die Processing-Webapp direkt durch das Aufrufen der HTML-Seite. Das Hauptinteraktionselement, das Canvas-Element (siehe Abbildung 2), ist direkt oben links auf der Seite zu sehen. Es enthält anfangs ein Würfel-Objekt und kann mittels der Regler, welche rechts von dem Canvas-Element positioniert sind, verändert werden. Der Nutzer kann die Attribute der Würfels variieren und wenn er damit zufrieden ist, entweder direkt in der Würfel-Objekte-Liste ablegen oder zuerst dessen Einstellungen speichern und einen weiteren Würfel positionieren. Die gesamte Skizze kann der Nutzer ebenfalls speichern.\\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{01_web-app-screenshot.png}
+    \caption{Aufbau}
+%    \label{fig:awesome_image}
+\end{figure}
+
+In der anderen Richtung kann der Nutzer sich auch aus den Listen, die sich unter dem Canvas-Element befinden, gespeicherte Würfel oder Skizzen anzeigen lassen. Diese werden mit einem Klick auf den jeweiligen Button in dem Canvas-Element angezeigt.\\
+Sollte ein Nutzer mehrere Würfel-Objekte erstellt haben, aber nicht zufrieden sein, kann er diese mit dem "Reset"-Button löschen. Ein flexibler Würfel bleibt dabei erhalten.
+
+\section{Abschlussphase}
+Am Ende des ersten Teils des Projekts konnte gleichzeitig ein einzelner Würfel modelliert, gespeichert und wieder aufgerufen werden. Diese Interaktion sollte ausgebaut werden und um das Feature, mehrere Würfel gleichzeitig darzustellen und modellieren zu können, erweitert werden. An diesem Punkt stellte sich das Framework als sehr flexibel heraus. 
+Die wichtigste strukturelle Anpassung war es, dass Objekte von mehreren Würfeln nochmals in einem JSON-Objekt verpackt werden mussten, um sie in der Datenbank zu speichern.
+
+
+\section{Fazit}
+Die Konzipierung und Umsetzung des Projekts war in vielen Hinsichten sehr interessant und lehrreich. Da es mein erstes serverseitiges Projekt war, habe ich viele neue Techniken erlernt und einen besseren Einblick in die Implementierung einer REST-Schnittstelle erlangt. Clientseitig hatte ich bereits etwas Erfahrung, konnte aber auch in dem Bereich neue Erkenntnisse erlangen. Das interaktive Nutzen von Processing.js war interessant, da ich zuvor noch nicht wusste, was damit tatsächlich umsetzbar ist. Das Nutzen der \emph{MongoDB}-Datenbank hat mir gefallen, weil ich direkt Objekte speichern konnte, ohne vorher ein Schema anzulegen. Letztlich konnte ich unter anderem dadurch das gleiche Objekt  in der Datenbank, serverseitig und clientseitig verwenden. Dank der Objektdatenbank wurde kein Objekt-relationales Mapping benötigt.
+
+\subsection{Ausblick}
+Da dieses Projekt noch sehr grundlegend ist, bieten sich an verschiedenen Stellen noch Erweiterungsmöglichkeiten an. Es könnten noch andere unterschiedliche Objekte für die Komposition der Skizze zur Verfügung gestellt werden. Dies geht natürlich auch mit einer komplizierteren Struktur der Objekte einher.
+Für die Nutzerseite würden sich auch das Generieren und Anzeigen von Thumbnails der gespeicherten Skizzen anbieten, um die Bedienung zu erleichtern.
+Interessant wäre auch die Erweiterung um einen privaten Bereich, der per Login erreicht werden kann, sodass Nutzer ihre eigenen Skizzen gesammelt betrachten können oder einzelne davon löschen können.
+
+\nocite{*}
+
+\begin{thebibliography}{9}
+  \bibitem{pjs}Processing.js, \url{http://processingjs.org/}, 02.02.2017.
+  \bibitem{proc}Processing, \url{https://processing.org/}, 02.02.2017.
+  \bibitem{mongo}MongoDB, \url{https://www.mongodb.com/}, 02.02.2017.
+  \bibitem{mongodoc}MongoDB, \url{https://docs.mongodb.com/manual/reference/method/}, 02.02.2017.
+  \bibitem{express}Express.js, \url{https://expressjs.com/}, 02.02.2017.
+  
+
+
+
+\end{thebibliography}
+
+
+\end{document}
