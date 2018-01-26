@@ -28,3 +28,10 @@ node app.js
 <li>save individual object settings to a database</li>
 <li>load individual object settings from a list created by other users</li>
 </ul>
+
+<hr>
+<h2> Run </h2>
+<div> start mongodb with 'mongod' </div>
+<div> start server with 'node app.js' </div>
+<div> use application (port 4000) </div>
+
