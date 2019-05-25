@@ -21,7 +21,7 @@ Database.prototype.findbyID = function(id, collectionName){
 //find list
 Database.prototype.findAll = function(collectionName){
     return mydb.collection(collectionName).find({});
-}
+};
 //create
 Database.prototype.create = function(cubeObj, collectionName) {
     mydb.collection(collectionName).insertOne(cubeObj);
